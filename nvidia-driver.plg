@@ -193,7 +193,7 @@ if [ "${NV_DRV_V}" == "latest" ]; then
     rm -f $(ls &plugin;/packages/nvidia-*-1.txz 2>/dev/null | grep -v "$NV_DRV_V")
   fi
 elif [ "${NV_DRV_V}" == "latest_prb" ]; then
-  LAT_PRB_AVAIL="$(wget -qO- https://raw.githubusercontent.com/ich777/versions/master/nvidia_versions | grep 'PRB' | cut -d '=' -f2 | sort -V)"
+  LAT_PRB_AVAIL="$(wget -qO- https://ghproxy.com/https://raw.githubusercontent.com/ich777/versions/master/nvidia_versions | grep 'PRB' | cut -d '=' -f2 | sort -V)"
   if [ -z "$DRIVER_AVAIL" ]; then
     if [ "$(grep "local_version" "&plugin;/settings.cfg" | cut -d '=' -f2)" == "none" ]; then
       if [ -d &plugin; ]; then
@@ -224,7 +224,7 @@ elif [ "${NV_DRV_V}" == "latest_prb" ]; then
     rm -f $(ls &plugin;/packages/nvidia-*-1.txz 2>/dev/null | grep -v "$NV_DRV_V")
   fi
 elif [ "${NV_DRV_V}" == "latest_nfb" ]; then
-  LAT_NFB_AVAIL="$(wget -qO- https://raw.githubusercontent.com/ich777/versions/master/nvidia_versions | grep 'NFB' | cut -d '=' -f2 | sort -V)"
+  LAT_NFB_AVAIL="$(wget -qO- https://ghproxy.com/https://raw.githubusercontent.com/ich777/versions/master/nvidia_versions | grep 'NFB' | cut -d '=' -f2 | sort -V)"
   if [ -z "$DRIVER_AVAIL" ]; then
     if [ "$(grep "local_version" "&plugin;/settings.cfg" | cut -d '=' -f2)" == "none" ]; then
       if [ -d &plugin; ]; then
@@ -295,8 +295,8 @@ fi
 
 #Download Nvidia Driver Package
 download() {
-if wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/packages/nvidia-${NV_DRV_V}-${KERNEL_V}-1.txz" "https://github.com/ich777/unraid-nvidia-driver/releases/download/${KERNEL_V}/nvidia-${DL_DRV}-${KERNEL_V}-1.txz" ; then
-  if [ "$(md5sum "&plugin;/packages/nvidia-${NV_DRV_V}-${KERNEL_V}-1.txz" | cut -d ' ' -f1)" != "$(wget -qO- "https://github.com/ich777/unraid-nvidia-driver/releases/download/${KERNEL_V}/nvidia-${DL_DRV}-${KERNEL_V}-1.txz.md5" | cut -d ' ' -f1)" ]; then
+if wget -q -nc --show-progress --progress=bar:force:noscroll -O "&plugin;/packages/nvidia-${NV_DRV_V}-${KERNEL_V}-1.txz" "https://ghproxy.com/https://github.com/ich777/unraid-nvidia-driver/releases/download/${KERNEL_V}/nvidia-${DL_DRV}-${KERNEL_V}-1.txz" ; then
+  if [ "$(md5sum "&plugin;/packages/nvidia-${NV_DRV_V}-${KERNEL_V}-1.txz" | cut -d ' ' -f1)" != "$(wget -qO- "https://ghproxy.com/https://github.com/ich777/unraid-nvidia-driver/releases/download/${KERNEL_V}/nvidia-${DL_DRV}-${KERNEL_V}-1.txz.md5" | cut -d ' ' -f1)" ]; then
     if [ -d &plugin; ]; then
       rm -rf &plugin;
     fi
@@ -403,11 +403,11 @@ fi
 
 #Check if Plugin Update Helper is downloaded and up-to-date
 if [ ! -f &plugin;/plugin_update_helper ]; then
-  wget -q -T 5 -O &plugin;/plugin_update_helper "https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper"
+  wget -q -T 5 -O &plugin;/plugin_update_helper "https://ghproxy.com/https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper"
 else
   CUR_V="$(grep -E "Plugin-Update-Helper version:" &plugin;/plugin_update_helper | awk '{print $4}')"
   if [ ! -s /tmp/update-helper ]; then
-    echo "$(wget -T5 -qO- https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper | grep -E "Plugin-Update-Helper version:" | awk '{print $4}')" > /tmp/update-helper
+    echo "$(wget -T5 -qO- https://ghproxy.com/https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper | grep -E "Plugin-Update-Helper version:" | awk '{print $4}')" > /tmp/update-helper
     AVAIL_V="$(cat /tmp/update-helper)"
   else
     AVAIL_V="$(cat /tmp/update-helper)"
@@ -415,7 +415,7 @@ else
   if [ ! -z "$AVAIL_V" ]; then
     COMPARE="$(sort -V &lt;(echo -e "${AVAIL_V}\n$CUR_V") | tail -1)"
     if [ "$CUR_V" != "$COMPARE" ]; then
-      wget -q -T 5 -O &plugin;/plugin_update_helper "https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper"
+      wget -q -T 5 -O &plugin;/plugin_update_helper "https://ghproxy.com/https://raw.githubusercontent.com/ich777/unraid-plugin_update_helper/master/plugin_update_helper"
     fi
   fi
 fi
